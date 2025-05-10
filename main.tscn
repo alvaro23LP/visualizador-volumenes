@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://rw8yh8i2xcl2"]
+[gd_scene load_steps=16 format=3 uid="uid://rw8yh8i2xcl2"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_k14sq"]
 [ext_resource type="Script" path="res://orbital_camera.gd" id="2_4j55b"]
 [ext_resource type="Texture2D" uid="uid://cygi8smdo04yi" path="res://wide_street_01_8k.hdr" id="2_6nxq5"]
 [ext_resource type="Script" path="res://first_person.gd" id="3_y7tog"]
+[ext_resource type="Shader" path="res://shader1.gdshader" id="5_ns2tm"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_bbb1s"]
 panorama = ExtResource("2_6nxq5")
@@ -19,9 +20,29 @@ ambient_light_color = Color(1, 1, 1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nkp7i"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_3xkss"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_8u7fn"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pe8dv"]
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ahyet"]
+noise = SubResource("FastNoiseLite_8u7fn")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_36lvr"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gh3sw"]
+as_normal_map = true
+noise = SubResource("FastNoiseLite_36lvr")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_76dtt"]
+render_priority = 0
+shader = ExtResource("5_ns2tm")
+shader_parameter/height_scale = 0.5
+shader_parameter/albedo_color = Color(0.4, 0.4, 0.8, 1)
+shader_parameter/noise = SubResource("NoiseTexture2D_ahyet")
+shader_parameter/normalmap = SubResource("NoiseTexture2D_gh3sw")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_bhi5j"]
+material = SubResource("ShaderMaterial_76dtt")
+subdivide_width = 32
+subdivide_depth = 32
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_k14sq")
@@ -35,6 +56,7 @@ script = ExtResource("2_4j55b")
 [node name="Camera3D" type="Camera3D" parent="OrbitalCamera"]
 
 [node name="FirstPerson" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.273078, 1.95373)
 script = ExtResource("3_y7tog")
 
 [node name="Camera3D" type="Camera3D" parent="FirstPerson"]
@@ -44,7 +66,14 @@ fov = 120.0
 shape = SubResource("BoxShape3D_nkp7i")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.696364, -5.57091, 0.173648, 0.707107, 5.65685, 0, -0.122788, 0.982302, 0.984808, 0, 0, -3)
-mesh = SubResource("BoxMesh_3xkss")
-skeleton = NodePath("../WorldEnvironment")
-surface_material_override/0 = SubResource("StandardMaterial3D_pe8dv")
+mesh = SubResource("PlaneMesh_bhi5j")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0978723, 0.378093, 0.308712)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.47676)
+mesh = SubResource("PlaneMesh_bhi5j")
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0978723, 0.378093, -3.53536)
