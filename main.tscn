@@ -1,0 +1,50 @@
+[gd_scene load_steps=11 format=3 uid="uid://rw8yh8i2xcl2"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_k14sq"]
+[ext_resource type="Script" path="res://orbital_camera.gd" id="2_4j55b"]
+[ext_resource type="Texture2D" uid="uid://cygi8smdo04yi" path="res://wide_street_01_8k.hdr" id="2_6nxq5"]
+[ext_resource type="Script" path="res://first_person.gd" id="3_y7tog"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_bbb1s"]
+panorama = ExtResource("2_6nxq5")
+
+[sub_resource type="Sky" id="Sky_qd3wd"]
+sky_material = SubResource("PanoramaSkyMaterial_bbb1s")
+
+[sub_resource type="Environment" id="Environment_so7h2"]
+background_mode = 2
+sky = SubResource("Sky_qd3wd")
+ambient_light_source = 2
+ambient_light_color = Color(1, 1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nkp7i"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_3xkss"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pe8dv"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_k14sq")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_so7h2")
+
+[node name="OrbitalCamera" type="Node3D" parent="."]
+script = ExtResource("2_4j55b")
+
+[node name="Camera3D" type="Camera3D" parent="OrbitalCamera"]
+
+[node name="FirstPerson" type="CharacterBody3D" parent="."]
+script = ExtResource("3_y7tog")
+
+[node name="Camera3D" type="Camera3D" parent="FirstPerson"]
+fov = 120.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FirstPerson"]
+shape = SubResource("BoxShape3D_nkp7i")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.696364, -5.57091, 0.173648, 0.707107, 5.65685, 0, -0.122788, 0.982302, 0.984808, 0, 0, -3)
+mesh = SubResource("BoxMesh_3xkss")
+skeleton = NodePath("../WorldEnvironment")
+surface_material_override/0 = SubResource("StandardMaterial3D_pe8dv")
