@@ -1,8 +1,13 @@
 shader_type spatial;
 render_mode unshaded;
 render_mode cull_front;
+uniform sampler2D backface_texture;
 
 void fragment() {
+	vec2 uv = SCREEN_UV;
+    vec3 sampled_rgb = texture(backface_texture, uv).rgb;
+	
+	
 	// Obtener la posición del vértice en espacio de cámara
     vec3 camera_pos = (VIEW_MATRIX * MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
@@ -12,7 +17,10 @@ void fragment() {
 
 	// Normalizar al rango 0–1 para meterlo en RGB
 	vec3 normalized = (camera_pos - min_bound) / (max_bound - min_bound);
+	vec3 normalized2 = (sampled_rgb - min_bound) / (sampled_rgb - min_bound);
 
 	// Guardar las coordenadas en el color
-	ALBEDO = normalized;
+	//ALBEDO = (sampled_rgb- normalized);
+	ALBEDO = texture(backface_texture, SCREEN_UV).rgb;
+	//ALBEDO = vec3(1.0);
 }

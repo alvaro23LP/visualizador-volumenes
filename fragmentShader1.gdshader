@@ -1,8 +1,6 @@
 shader_type spatial;
 render_mode unshaded;
 render_mode cull_back;
-uniform sampler2D prev_pass;
-
 
 void fragment() {
 	// Obtener la posición del vértice en espacio de cámara
@@ -16,5 +14,5 @@ void fragment() {
 	vec3 normalized = (camera_pos - min_bound) / (max_bound - min_bound);
 
 	// Guardar las coordenadas en el color
-	ALBEDO = normalized;
+	ALBEDO = normalized * vec3(0.0, 1.0, 1.0);
 }
