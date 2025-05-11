@@ -16,7 +16,7 @@ func _input(event):
 		rotation_x = clamp(rotation_x - event.relative.y * mouse_sensitivity, deg_to_rad(-89), deg_to_rad(89))
 		$Camera3D.rotation.x = rotation_x
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	var direction = Vector3.ZERO
 
 	if Input.is_action_pressed("move_forward"):
@@ -27,7 +27,11 @@ func _physics_process(delta):
 		direction -= transform.basis.x
 	if Input.is_action_pressed("move_right"):
 		direction += transform.basis.x
-	# añadir subir y bajar
+	if Input.is_action_pressed("move_up"):
+		direction += transform.basis.y
+	if Input.is_action_pressed("move_down"):
+		direction -= transform.basis.y
+
 	
 	direction = direction.normalized()
 	velocity = direction * speed
