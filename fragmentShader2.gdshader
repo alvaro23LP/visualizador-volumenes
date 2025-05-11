@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded;
+//render_mode unshaded;
 render_mode cull_front;
 uniform sampler2D backface_texture;
 
@@ -21,6 +21,6 @@ void fragment() {
 
 	// Guardar las coordenadas en el color
 	//ALBEDO = (sampled_rgb- normalized);
-	ALBEDO = texture(backface_texture, SCREEN_UV).rgb;
+	ALBEDO = normalized * vec3(0.5);
 	//ALBEDO = vec3(1.0);
 }

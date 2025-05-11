@@ -3,15 +3,9 @@ extends Node3D
 @onready var cam_orbital := $OrbitalCamera/Camera3D
 @onready var cam_fp := $FirstPerson/Camera3D
 
-@onready var viewport := $Node3D/backViewport
-@onready var mesh_final := $cull_back
-
 
 func _ready():
-	var shader_material := mesh_final.get_active_material(0) as ShaderMaterial
-	shader_material.set_shader_parameter("backface_texture", viewport.get_texture())
-	var image: Image = viewport.get_texture().get_image()
-	image.save_png("user://coordenadas_rgb.png")
+
 
 	#var mat = mesh_final.get_active_material(0)
 	#print(mat)
