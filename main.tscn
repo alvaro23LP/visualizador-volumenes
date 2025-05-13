@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://rw8yh8i2xcl2"]
+[gd_scene load_steps=31 format=3 uid="uid://rw8yh8i2xcl2"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_k14sq"]
 [ext_resource type="Script" path="res://orbital_camera.gd" id="2_4j55b"]
@@ -6,8 +6,10 @@
 [ext_resource type="Script" path="res://first_person.gd" id="3_y7tog"]
 [ext_resource type="Shader" path="res://fragmentShader1.gdshader" id="5_3kcsp"]
 [ext_resource type="Shader" path="res://shader1.gdshader" id="5_ns2tm"]
+[ext_resource type="Shader" path="res://cull_front.gdshader" id="6_bvffo"]
+[ext_resource type="Shader" path="res://fragmentShader_caras_delanteras.gdshader" id="6_rri73"]
 [ext_resource type="Shader" path="res://fragmentShader2.gdshader" id="7_mwebq"]
-[ext_resource type="Script" path="res://texture_catcher.gd" id="8_53fy6"]
+[ext_resource type="Shader" path="res://cull_back.gdshader" id="10_snekh"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_bbb1s"]
 panorama = ExtResource("2_6nxq5")
@@ -47,26 +49,47 @@ subdivide_depth = 32
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nkp7i"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jn33w"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gqvyk"]
 render_priority = 0
-shader = ExtResource("5_3kcsp")
+shader = ExtResource("6_rri73")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gf7gt"]
 render_priority = 0
-next_pass = SubResource("ShaderMaterial_jn33w")
-shader = ExtResource("7_mwebq")
+next_pass = SubResource("ShaderMaterial_gqvyk")
+shader = ExtResource("6_bvffo")
 
 [sub_resource type="BoxMesh" id="BoxMesh_2fuyy"]
 material = SubResource("ShaderMaterial_gf7gt")
-size = Vector3(5, 1, 1)
+size = Vector3(3, 3, 3)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ja4vh"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2p8pd"]
 render_priority = 0
 shader = ExtResource("5_3kcsp")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ja4vh"]
+render_priority = 0
+next_pass = SubResource("ShaderMaterial_2p8pd")
+shader = ExtResource("7_mwebq")
+
 [sub_resource type="BoxMesh" id="BoxMesh_k3ywd"]
 material = SubResource("ShaderMaterial_ja4vh")
-size = Vector3(5, 1, 1)
+size = Vector3(3, 3, 3)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_so0mo"]
+render_priority = 0
+shader = ExtResource("6_bvffo")
+
+[sub_resource type="BoxMesh" id="BoxMesh_bhue1"]
+material = SubResource("ShaderMaterial_so0mo")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8xp8k"]
+render_priority = 0
+shader = ExtResource("10_snekh")
+
+[sub_resource type="BoxMesh" id="BoxMesh_0h0i6"]
+material = SubResource("ShaderMaterial_8xp8k")
+size = Vector3(2, 2, 2)
 
 [node name="Node3D" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0059588, 1.19209e-07, 0.00141454)
@@ -87,7 +110,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0644176, 2.33767, 0.603406)
 
 [node name="firstShader" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.47676)
-visible = false
 mesh = SubResource("PlaneMesh_bhi5j")
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="."]
@@ -95,6 +117,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.522067, 0.353244, -3.45091)
 
 [node name="FirstPerson" type="CharacterBody3D" parent="."]
 transform = Transform3D(0.0170511, 0, 0.999855, 0, 1, 0, -0.999855, 0, 0.0170511, 5.13332, 0.273078, -0.0345898)
+visible = false
 script = ExtResource("3_y7tog")
 
 [node name="Camera3D" type="Camera3D" parent="FirstPerson"]
@@ -103,31 +126,17 @@ fov = 95.0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FirstPerson"]
 shape = SubResource("BoxShape3D_nkp7i")
 
-[node name="cull_front" type="MeshInstance3D" parent="."]
+[node name="tras-del" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_2fuyy")
 
-[node name="cull_back" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 2.05847)
+[node name="del-tras" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 5.17079)
 mesh = SubResource("BoxMesh_k3ywd")
 
-[node name="textureCatcher" type="Node3D" parent="." node_paths=PackedStringArray("mesh_to_snap")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.82675, -0.0203072, 5.52216)
-script = ExtResource("8_53fy6")
-mesh_to_snap = NodePath("../cull_back")
-snap_name = "PRUEBA"
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.68789, 0, 0)
+mesh = SubResource("BoxMesh_bhue1")
 
-[node name="SubViewport" type="SubViewport" parent="textureCatcher"]
-transparent_bg = true
-size = Vector2i(1280, 720)
-render_target_update_mode = 4
-
-[node name="Node3D" type="Node3D" parent="textureCatcher/SubViewport"]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="textureCatcher/SubViewport/Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0422192, 0.0286678, -0.0696564)
-
-[node name="OmniLight3D" type="OmniLight3D" parent="textureCatcher/SubViewport/Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.590838, -0.248295, 0.93521)
-
-[node name="Camera3D" type="Camera3D" parent="textureCatcher/SubViewport/Node3D"]
-visible = false
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.999777, 0.0211169, 0, -0.0211169, 0.999777, -6.68789, 0, 2.31068)
+mesh = SubResource("BoxMesh_0h0i6")

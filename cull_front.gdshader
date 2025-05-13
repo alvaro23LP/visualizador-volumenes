@@ -1,11 +1,8 @@
 shader_type spatial;
 render_mode unshaded;
 render_mode cull_front;
-uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
 
 void fragment() {
-	vec4 currentColor = textureLod(screen_texture, SCREEN_UV, 0.0);
-	
 	// Obtener la posición del vértice en espacio de cámara
     vec3 camera_pos = (VIEW_MATRIX * MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
@@ -17,7 +14,5 @@ void fragment() {
 	vec3 normalized = (camera_pos - min_bound) / (max_bound - min_bound);
 
 	// Guardar las coordenadas en el color
-	//ALBEDO = (sampled_rgb- normalized);
-	//ALBEDO = currentColor.rgb;
-	ALBEDO = normalized-currentColor.rgb;
+	ALBEDO = normalized;
 }
