@@ -3,7 +3,7 @@ shader_type spatial;
 uniform float height_scale = 0.5;
 uniform sampler2D noise;
 uniform sampler2D normalmap;
-uniform vec3 albedo_color : source_color = vec3(0.4, 0.4, 0.8); // Color 
+uniform vec3 albedo_color : source_color = vec3(0.4, 0.4, 0.8); // Color
 
 varying vec2 tex_position;
 

@@ -2,17 +2,15 @@ extends Node3D
 
 @onready var cam_orbital := $OrbitalCamera/Camera3D
 @onready var cam_fp := $FirstPerson/Camera3D
-
+@onready var mesh_final := $cull_front
+@onready var texture := ($textureCatcher/SubViewport as SubViewport).get_texture()
 
 func _ready():
-
-
-	#var mat = mesh_final.get_active_material(0)
+	var mat = mesh_final.get_active_material(0)
 	#print(mat)
-	#if mat and mat is ShaderMaterial:
-		#var texture = viewport.get_texture()
-		#mat.set_shader_parameter("prev_pass", texture)
-		#mat.set_shader_parameter("screen_size", texture.get_size())
+	if mat and mat is ShaderMaterial:
+		mat.set_shader_parameter("prev_pass", texture)
+		mat.set_shader_parameter("screen_size", texture.get_size())
 	#else:
 		#push_error("El material no es un ShaderMaterial en mesh_final.")
 	cam_fp.current = false
