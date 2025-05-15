@@ -25,5 +25,3 @@ func _ready():
 func _process(_delta):
 	if main_camera and sub_camera:
 		sub_camera.global_transform = main_camera.global_transform
-		#print(sub_camera.global_position)
-		#print("main: %s" % main_camera.global_position)	

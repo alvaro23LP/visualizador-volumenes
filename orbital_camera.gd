@@ -3,7 +3,7 @@ extends Node3D
 @export var rotation_speed := 0.01
 @export var zoom_speed := 1.0
 @export var min_distance := 2.0
-@export var max_distance := 25.0
+@export var max_distance := 20.0
 
 var distance := 10.0
 var orbital_rotation := Vector2.ZERO

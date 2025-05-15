@@ -3,7 +3,7 @@ render_mode unshaded;
 render_mode cull_front;
 
 void fragment() {
-	// Obtener la posición del vértice en espacio de cámara
+	// Obtener la posición en espacio de cámara
     vec3 camera_pos = (VIEW_MATRIX * MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
 	// Ajustar límites para normalizar
@@ -14,7 +14,5 @@ void fragment() {
 	vec3 normalized = (camera_pos - min_bound) / (max_bound - min_bound);
 
 	// Guardar las coordenadas en el color
-	//ALBEDO = (sampled_rgb- normalized);
-	//ALBEDO = currentColor.rgb;
 	ALBEDO = normalized;
 }
