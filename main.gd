@@ -14,17 +14,20 @@ func _ready():
 func _process(_delta):
 	if viewport1.get_texture():
 		mesh.get_active_material(0).set_shader_parameter("viewport_texture", viewport1.get_texture())
-	cam_viewport1.global_transform = cam_orbital.global_transform
+	
+	if cam_fp.current:
+		cam_viewport1.global_transform = cam_fp.global_transform
+	else:
+		cam_viewport1.global_transform = cam_orbital.global_transform
 
 func _input(event):
 	if event.is_action_pressed("toggle_camera"):
-		var use_fp = !cam_fp.current
-		cam_fp.current = use_fp
-		cam_orbital.current = !use_fp
-		#cam_fp.current = !cam_fp.current
-		#cam_orbital.current = !cam_fp.current
+		cam_fp.current = !cam_fp.current
+		cam_orbital.current = !cam_fp.current
 
-		#var active_cam = cam_fp if use_fp else cam_orbital
+	if cam_fp.current:
+		cam_viewport1.global_transform = cam_fp.global_transform
+	else:
 		cam_viewport1.global_transform = cam_orbital.global_transform
 		
 	if event.is_action_pressed("ui_cancel"):
