@@ -1,12 +1,13 @@
-[gd_scene load_steps=21 format=3 uid="uid://rw8yh8i2xcl2"]
+[gd_scene load_steps=26 format=3 uid="uid://rw8yh8i2xcl2"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_k14sq"]
 [ext_resource type="Script" path="res://orbital_camera.gd" id="2_4j55b"]
 [ext_resource type="Texture2D" uid="uid://cygi8smdo04yi" path="res://wide_street_01_8k.hdr" id="2_6nxq5"]
 [ext_resource type="Script" path="res://first_person.gd" id="3_y7tog"]
 [ext_resource type="Shader" path="res://cull_front.gdshader" id="6_bvffo"]
-[ext_resource type="Shader" path="res://fragmentShader_caras_delanteras.gdshader" id="6_rri73"]
-[ext_resource type="Shader" path="res://fragmentShader_caras_traseras.gdshader" id="7_8tbfs"]
+[ext_resource type="Shader" path="res://shader2_trazado_rayos.gdshader" id="6_rri73"]
+[ext_resource type="Shader" path="res://shader1_traseras.gdshader" id="7_8tbfs"]
+[ext_resource type="Shader" path="res://ej_shader_trazado_rayos.gdshader" id="9_583dn"]
 [ext_resource type="Shader" path="res://cull_back.gdshader" id="10_snekh"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_bbb1s"]
@@ -41,18 +42,34 @@ size = Vector3(3, 3, 3)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jq354"]
 render_priority = 0
-shader = ExtResource("6_bvffo")
+shader = ExtResource("10_snekh")
 
 [sub_resource type="BoxMesh" id="BoxMesh_bhue1"]
 material = SubResource("ShaderMaterial_jq354")
 size = Vector3(2, 2, 2)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8xp8k"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2bubt"]
 render_priority = 0
-shader = ExtResource("10_snekh")
+shader = ExtResource("6_bvffo")
 
-[sub_resource type="BoxMesh" id="BoxMesh_0h0i6"]
-material = SubResource("ShaderMaterial_8xp8k")
+[sub_resource type="BoxMesh" id="BoxMesh_pkcrt"]
+material = SubResource("ShaderMaterial_2bubt")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ukurx"]
+render_priority = 0
+shader = ExtResource("9_583dn")
+
+[sub_resource type="BoxMesh" id="BoxMesh_psp2i"]
+material = SubResource("ShaderMaterial_ukurx")
+size = Vector3(2, 2, 2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lljc3"]
+render_priority = 0
+shader = ExtResource("7_8tbfs")
+
+[sub_resource type="BoxMesh" id="BoxMesh_4xnss"]
+material = SubResource("ShaderMaterial_lljc3")
 size = Vector3(2, 2, 2)
 
 [node name="Node3D" type="Node3D"]
@@ -63,7 +80,6 @@ script = ExtResource("1_k14sq")
 environment = SubResource("Environment_so7h2")
 
 [node name="OrbitalCamera" type="Node3D" parent="."]
-visible = false
 script = ExtResource("2_4j55b")
 
 [node name="Camera3D" type="Camera3D" parent="OrbitalCamera"]
@@ -71,12 +87,10 @@ visible = false
 cull_mask = 1048573
 
 [node name="FirstPerson" type="CharacterBody3D" parent="."]
-transform = Transform3D(0.0170511, 0, 0.999855, 0, 1, 0, -0.999855, 0, 0.0170511, 5.13332, 0.273078, -0.0345898)
-visible = false
+transform = Transform3D(0.0170511, 0, 0.999855, 0, 1, 0, -0.999855, 0, 0.0170511, 0, 0, 4.78343)
 script = ExtResource("3_y7tog")
 
 [node name="Camera3D" type="Camera3D" parent="FirstPerson"]
-visible = false
 cull_mask = 1048573
 fov = 90.0
 
@@ -93,20 +107,29 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 1.5, 1.5)
 layers = 2
 mesh = SubResource("BoxMesh_8tvoi")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.89565, 1, 1)
+[node name="cull_back_ejemplo" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2801, 1, 1)
 mesh = SubResource("BoxMesh_bhue1")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="cull_front_ejemplo" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.999777, 0.0211169, 0, -0.0211169, 0.999777, 12.9394, 1, 1)
+mesh = SubResource("BoxMesh_pkcrt")
+
+[node name="d_trazado_rayos_ejemplo" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.999777, 0.0211169, 0, -0.0211169, 0.999777, 6.89565, 1, 1)
-mesh = SubResource("BoxMesh_0h0i6")
+mesh = SubResource("BoxMesh_psp2i")
+
+[node name="t_trazado_rayos_ejemplo" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.999777, 0.0211169, 0, -0.0211169, 0.999777, 6.89565, 1, 1)
+layers = 2
+mesh = SubResource("BoxMesh_4xnss")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 transparent_bg = true
 use_hdr_2d = true
+canvas_cull_mask = 4293918722
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport"]
-visible = false
 cull_mask = 2

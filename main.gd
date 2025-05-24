@@ -5,15 +5,25 @@ extends Node3D
 @onready var cam_viewport1 := $SubViewport/Camera3D
 @onready var viewport1 := $SubViewport
 @onready var mesh := $Box_delanteras
+@onready var mesh2 := $d_trazado_rayos_ejemplo
 
 func _ready():
 	cam_fp.current = false
 	cam_orbital.current = true
 	cam_viewport1.global_transform = cam_orbital.global_transform
 
+	if viewport1.get_texture():
+		mesh.get_active_material(0).set_shader_parameter("viewport_texture", viewport1.get_texture())
+	if viewport1.get_texture():
+		mesh2.get_active_material(0).set_shader_parameter("viewport_texture", viewport1.get_texture())
+		
+
 func _process(_delta):
 	if viewport1.get_texture():
 		mesh.get_active_material(0).set_shader_parameter("viewport_texture", viewport1.get_texture())
+	
+	if viewport1.get_texture():
+		mesh2.get_active_material(0).set_shader_parameter("viewport_texture", viewport1.get_texture())
 	
 	if cam_fp.current:
 		cam_viewport1.global_transform = cam_fp.global_transform
