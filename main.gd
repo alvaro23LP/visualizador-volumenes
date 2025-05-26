@@ -3,42 +3,49 @@ extends Node3D
 @onready var cam_orbital := $OrbitalCamera/Camera3D
 @onready var cam_fp := $FirstPerson/Camera3D
 @onready var cam_viewport1 := $SubViewport/Camera3D
+@onready var cam_viewport2 := $SubViewport2/Camera3D
 @onready var viewport1 := $SubViewport
-@onready var mesh := $Box_delanteras
-@onready var mesh2 := $d_trazado_rayos_ejemplo
+@onready var viewport2 := $SubViewport2
+@onready var mesh := $Box_trazado_rayos
 
 func _ready():
 	cam_fp.current = false
 	cam_orbital.current = true
-	cam_viewport1.global_transform = cam_orbital.global_transform
+	#cam_viewport1.global_transform = cam_orbital.global_transform
+	#cam_viewport2.global_transform = cam_orbital.global_transform
 
+	
+	await get_tree().process_frame
 	if viewport1.get_texture():
 		mesh.get_active_material(0).set_shader_parameter("viewport_texture", viewport1.get_texture())
-	if viewport1.get_texture():
-		mesh2.get_active_material(0).set_shader_parameter("viewport_texture", viewport1.get_texture())
 		
+	if viewport2.get_texture():
+		mesh.get_active_material(0).set_shader_parameter("viewport_texture2", viewport2.get_texture())
 
 func _process(_delta):
 	if viewport1.get_texture():
 		mesh.get_active_material(0).set_shader_parameter("viewport_texture", viewport1.get_texture())
-	
-	if viewport1.get_texture():
-		mesh2.get_active_material(0).set_shader_parameter("viewport_texture", viewport1.get_texture())
-	
-	if cam_fp.current:
-		cam_viewport1.global_transform = cam_fp.global_transform
-	else:
+	if viewport2.get_texture():
+		mesh.get_active_material(0).set_shader_parameter("viewport_texture2", viewport2.get_texture())
+
+	#if cam_fp.current:
+		#cam_viewport1.global_transform = cam_fp.global_transform
+		#cam_viewport2.global_transform = cam_fp.global_transform
+	#else:
 		cam_viewport1.global_transform = cam_orbital.global_transform
+		cam_viewport2.global_transform = cam_orbital.global_transform
 
 func _input(event):
 	if event.is_action_pressed("toggle_camera"):
 		cam_fp.current = !cam_fp.current
 		cam_orbital.current = !cam_fp.current
 
-	if cam_fp.current:
-		cam_viewport1.global_transform = cam_fp.global_transform
-	else:
-		cam_viewport1.global_transform = cam_orbital.global_transform
+	#if cam_fp.current:
+		#cam_viewport1.global_transform = cam_fp.global_transform
+		#cam_viewport2.global_transform = cam_fp.global_transform
+	#else:
+		#cam_viewport1.global_transform = cam_orbital.global_transform
+		#cam_viewport2.global_transform = cam_orbital.global_transform
 		
 	if event.is_action_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

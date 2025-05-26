@@ -1,12 +1,14 @@
 shader_type spatial;
-render_mode unshaded;
+//render_mode unshaded;
 render_mode cull_back;
 //uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
 uniform sampler2D viewport_texture;
+uniform sampler2D viewport_texture2;
+uniform vec3 ola;
 
 float funcion_densidad(vec3 p) {
-    vec3 center = vec3(0.5,0.5,0.5); // Centro de la esfera
-    float radius = 0.25;      // Radio de la esfera
+    vec3 center = vec3(0.0,0.0,0.0); // Centro de la esfera
+    float radius = 1.5;      // Radio de la esfera
 
     if (distance(p, center) < radius) {
         return 1.0;
@@ -17,8 +19,9 @@ float funcion_densidad(vec3 p) {
 
 void fragment() {
     vec4 tex = textureLod(viewport_texture, SCREEN_UV, 0.0); // textura del primer viewport
+    vec4 tex2 = textureLod(viewport_texture2, SCREEN_UV, 0.0); // textura del segundo viewport
 	
-	vec3 v = tex.rgb-VERTEX.rgb; // vector desde Vertex a tex
+	vec3 v = tex.rgb-tex2.rgb; // vector desde Vertex a tex
     
     float paso = 0.04; // distancia entre pasos
     vec3 p;
@@ -28,7 +31,7 @@ void fragment() {
 
 	
 	for (float t = 0.0; t < dis; t += paso) {
-        p = VERTEX.rgb + (ray_dir * t);
+        p = tex2.rgb + (ray_dir * t);
 
         float density = funcion_densidad(p); 
 
@@ -45,5 +48,7 @@ void fragment() {
         ALPHA = 0.2;
     }
 	//ALBEDO = vec3(v);
+	//ALBEDO = vec3(0.5);
+	//ALBEDO = ola;
 }
 
