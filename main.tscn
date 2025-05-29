@@ -27,10 +27,11 @@ ambient_light_color = Color(1, 1, 1, 1)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gf7gt"]
 render_priority = 0
 shader = ExtResource("6_rri73")
+shader_parameter/noise_offset = null
 
 [sub_resource type="BoxMesh" id="BoxMesh_2fuyy"]
 material = SubResource("ShaderMaterial_gf7gt")
-size = Vector3(3, 3, 3)
+size = Vector3(5, 5, 5)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uks54"]
 render_priority = 0
@@ -38,10 +39,10 @@ shader = ExtResource("6_oaatf")
 
 [sub_resource type="BoxMesh" id="BoxMesh_dq05m"]
 material = SubResource("ShaderMaterial_uks54")
-size = Vector3(3, 3, 3)
+size = Vector3(5, 5, 5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_snek2"]
-size = Vector3(3, 3, 3)
+size = Vector3(5, 5, 5)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8703w"]
 render_priority = 0
@@ -94,18 +95,18 @@ mesh = SubResource("BoxMesh_2fuyy")
 layers = 4
 mesh = SubResource("BoxMesh_dq05m")
 
-[node name="Box_delanteras2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
-layers = 5
-mesh = SubResource("BoxMesh_dq05m")
-
 [node name="Box_traseras" type="MeshInstance3D" parent="."]
 layers = 2
 mesh = SubResource("BoxMesh_snek2")
 surface_material_override/0 = SubResource("ShaderMaterial_8703w")
 
+[node name="Box_delanteras2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1763, 0, 0)
+layers = 5
+mesh = SubResource("BoxMesh_dq05m")
+
 [node name="Box_traseras2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.2964, 0, 0)
 layers = 3
 mesh = SubResource("BoxMesh_snek2")
 surface_material_override/0 = SubResource("ShaderMaterial_8703w")

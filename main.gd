@@ -13,7 +13,6 @@ func _ready():
 	cam_orbital.current = true
 	cam_viewport1.global_transform = cam_orbital.global_transform
 	cam_viewport2.global_transform = cam_orbital.global_transform
-
 	
 	await get_tree().process_frame
 	if viewport1.get_texture():
@@ -21,12 +20,37 @@ func _ready():
 		
 	if viewport2.get_texture():
 		mesh.get_active_material(0).set_shader_parameter("viewport_texture2", viewport2.get_texture())
+		
+	var noise = FastNoiseLite.new()
+	noise.seed = randi()
+	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
+	noise.frequency = 0.02
+	noise.fractal_octaves = 6
+	noise.fractal_lacunarity = 2.0
+	noise.fractal_gain = 0.1
+	
 
-func _process(_delta):
+	var tex3d = NoiseTexture3D.new()
+	tex3d.noise = noise
+	tex3d.width = 128
+	tex3d.height = 128
+	tex3d.depth = 128
+
+	# Asignar a shader
+	mesh.get_active_material(0).set_shader_parameter("volume_noise", tex3d)
+	#mesh.get_active_material(0).set_shader_parameter("noise_offset", Vector3(randf(), randf(), randf()))
+
+var time := 0.0
+func _process(delta):
 	if viewport1.get_texture():
 		mesh.get_active_material(0).set_shader_parameter("viewport_texture", viewport1.get_texture())
 	if viewport2.get_texture():
 		mesh.get_active_material(0).set_shader_parameter("viewport_texture2", viewport2.get_texture())
+
+	time += delta/2
+	var offset = Vector3(sin(time*0.3), cos(time * 0.2), sin(time * 0.1))
+	mesh.get_active_material(0).set_shader_parameter("noise_offset", offset)
+
 
 	if cam_fp.current:
 		cam_viewport1.global_transform = cam_fp.global_transform
