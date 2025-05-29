@@ -4,7 +4,6 @@ render_mode cull_back;
 //uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
 uniform sampler2D viewport_texture;
 uniform sampler2D viewport_texture2;
-uniform vec3 ola;
 
 float funcion_densidad(vec3 p) {
     vec3 center = vec3(0.0,0.0,0.0); // Centro de la esfera
@@ -48,7 +47,5 @@ void fragment() {
         ALPHA = 0.2;
     }
 	//ALBEDO = vec3(v);
-	//ALBEDO = vec3(0.5);
-	//ALBEDO = ola;
 }
 

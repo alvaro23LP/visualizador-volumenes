@@ -27,7 +27,6 @@ ambient_light_color = Color(1, 1, 1, 1)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gf7gt"]
 render_priority = 0
 shader = ExtResource("6_rri73")
-shader_parameter/ola = null
 
 [sub_resource type="BoxMesh" id="BoxMesh_2fuyy"]
 material = SubResource("ShaderMaterial_gf7gt")
@@ -84,7 +83,6 @@ script = ExtResource("3_y7tog")
 
 [node name="Camera3D" type="Camera3D" parent="FirstPerson"]
 cull_mask = 1048569
-fov = 90.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FirstPerson"]
 shape = SubResource("BoxShape3D_nkp7i")
@@ -96,9 +94,19 @@ mesh = SubResource("BoxMesh_2fuyy")
 layers = 4
 mesh = SubResource("BoxMesh_dq05m")
 
+[node name="Box_delanteras2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+layers = 5
+mesh = SubResource("BoxMesh_dq05m")
+
 [node name="Box_traseras" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 layers = 2
+mesh = SubResource("BoxMesh_snek2")
+surface_material_override/0 = SubResource("ShaderMaterial_8703w")
+
+[node name="Box_traseras2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+layers = 3
 mesh = SubResource("BoxMesh_snek2")
 surface_material_override/0 = SubResource("ShaderMaterial_8703w")
 
@@ -110,17 +118,6 @@ mesh = SubResource("BoxMesh_bhue1")
 transform = Transform3D(1, 0, 0, 0, 0.999777, 0.0211169, 0, -0.0211169, 0.999777, 16.5669, 1, 1)
 mesh = SubResource("BoxMesh_pkcrt")
 
-[node name="SubViewport" type="SubViewport" parent="."]
-transparent_bg = true
-use_hdr_2d = true
-canvas_cull_mask = 4293918722
-size = Vector2i(1280, 720)
-render_target_update_mode = 4
-
-[node name="Camera3D" type="Camera3D" parent="SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.54596)
-cull_mask = 2
-
 [node name="SubViewport2" type="SubViewport" parent="."]
 transparent_bg = true
 use_hdr_2d = true
@@ -131,3 +128,14 @@ render_target_update_mode = 4
 [node name="Camera3D" type="Camera3D" parent="SubViewport2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.64882)
 cull_mask = 4
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+use_hdr_2d = true
+canvas_cull_mask = 4293918722
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.54596)
+cull_mask = 2

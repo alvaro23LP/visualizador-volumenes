@@ -11,8 +11,8 @@ extends Node3D
 func _ready():
 	cam_fp.current = false
 	cam_orbital.current = true
-	#cam_viewport1.global_transform = cam_orbital.global_transform
-	#cam_viewport2.global_transform = cam_orbital.global_transform
+	cam_viewport1.global_transform = cam_orbital.global_transform
+	cam_viewport2.global_transform = cam_orbital.global_transform
 
 	
 	await get_tree().process_frame
@@ -28,10 +28,10 @@ func _process(_delta):
 	if viewport2.get_texture():
 		mesh.get_active_material(0).set_shader_parameter("viewport_texture2", viewport2.get_texture())
 
-	#if cam_fp.current:
-		#cam_viewport1.global_transform = cam_fp.global_transform
-		#cam_viewport2.global_transform = cam_fp.global_transform
-	#else:
+	if cam_fp.current:
+		cam_viewport1.global_transform = cam_fp.global_transform
+		cam_viewport2.global_transform = cam_fp.global_transform
+	else:
 		cam_viewport1.global_transform = cam_orbital.global_transform
 		cam_viewport2.global_transform = cam_orbital.global_transform
 
