@@ -28,6 +28,8 @@ ambient_light_color = Color(1, 1, 1, 1)
 render_priority = 0
 shader = ExtResource("6_rri73")
 shader_parameter/noise_offset = null
+shader_parameter/volume_min = null
+shader_parameter/volume_size = null
 
 [sub_resource type="BoxMesh" id="BoxMesh_2fuyy"]
 material = SubResource("ShaderMaterial_gf7gt")
