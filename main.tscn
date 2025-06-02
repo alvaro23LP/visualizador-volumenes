@@ -17,7 +17,9 @@ panorama = ExtResource("2_6nxq5")
 sky_material = SubResource("PanoramaSkyMaterial_bbb1s")
 
 [sub_resource type="Environment" id="Environment_so7h2"]
-background_mode = 2
+background_mode = 1
+background_color = Color(0.233925, 0.233925, 0.233925, 1)
+background_energy_multiplier = 0.9
 sky = SubResource("Sky_qd3wd")
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
@@ -27,7 +29,9 @@ ambient_light_color = Color(1, 1, 1, 1)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gf7gt"]
 render_priority = 0
 shader = ExtResource("6_rri73")
-shader_parameter/noise_offset = null
+shader_parameter/umbral_densidad = 0.2
+shader_parameter/volume_min = null
+shader_parameter/volume_size = null
 
 [sub_resource type="BoxMesh" id="BoxMesh_2fuyy"]
 material = SubResource("ShaderMaterial_gf7gt")
@@ -83,19 +87,24 @@ transform = Transform3D(0.0170511, 0, 0.999855, 0, 1, 0, -0.999855, 0, 0.0170511
 script = ExtResource("3_y7tog")
 
 [node name="Camera3D" type="Camera3D" parent="FirstPerson"]
+transform = Transform3D(1, 1.86265e-09, 8.14188e-17, 0, -4.37114e-08, 1, 1.86265e-09, -1, -4.37114e-08, 0, 0, 0)
 cull_mask = 1048569
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FirstPerson"]
+transform = Transform3D(1, 1.86265e-09, 8.14188e-17, 0, -4.37114e-08, 1, 1.86265e-09, -1, -4.37114e-08, 0, 0, 0)
 shape = SubResource("BoxShape3D_nkp7i")
 
 [node name="Box_trazado_rayos" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("BoxMesh_2fuyy")
 
 [node name="Box_delanteras" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 layers = 4
 mesh = SubResource("BoxMesh_dq05m")
 
 [node name="Box_traseras" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 layers = 2
 mesh = SubResource("BoxMesh_snek2")
 surface_material_override/0 = SubResource("ShaderMaterial_8703w")
@@ -113,10 +122,12 @@ surface_material_override/0 = SubResource("ShaderMaterial_8703w")
 
 [node name="cull_back_ejemplo" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.9076, 1, 1)
+visible = false
 mesh = SubResource("BoxMesh_bhue1")
 
 [node name="cull_front_ejemplo" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.999777, 0.0211169, 0, -0.0211169, 0.999777, 16.5669, 1, 1)
+visible = false
 mesh = SubResource("BoxMesh_pkcrt")
 
 [node name="SubViewport2" type="SubViewport" parent="."]
@@ -127,7 +138,7 @@ size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.64882)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 cull_mask = 4
 
 [node name="SubViewport" type="SubViewport" parent="."]
@@ -138,5 +149,5 @@ size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.54596)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 cull_mask = 2
