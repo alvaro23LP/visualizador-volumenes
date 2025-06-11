@@ -54,13 +54,6 @@ func _input(event):
 		cam_fp.current = !cam_fp.current
 		cam_orbital.current = !cam_fp.current
 
-	#if cam_fp.current:
-		#cam_viewport1.global_transform = cam_fp.global_transform
-		#cam_viewport2.global_transform = cam_fp.global_transform
-	#else:
-		#cam_viewport1.global_transform = cam_orbital.global_transform
-		#cam_viewport2.global_transform = cam_orbital.global_transform
-		
 	if event.is_action_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 

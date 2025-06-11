@@ -10,7 +10,7 @@ func _ready():
 	$Camera3D.position.y = 1.0
 
 func _input(event):
-	if event is InputEventMouseMotion:
+	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED and event is InputEventMouseMotion:
 		rotation.y -= event.relative.x * mouse_sensitivity
 		rotation = Vector3(0, rotation.y, 0)
 		rotation_x = clamp(rotation_x - event.relative.y * mouse_sensitivity, deg_to_rad(-89), deg_to_rad(89))

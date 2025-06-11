@@ -1,14 +1,14 @@
-[gd_scene load_steps=24 format=3 uid="uid://rw8yh8i2xcl2"]
+[gd_scene load_steps=23 format=3 uid="uid://rw8yh8i2xcl2"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_k14sq"]
 [ext_resource type="Script" path="res://orbital_camera.gd" id="2_4j55b"]
 [ext_resource type="Texture2D" uid="uid://cygi8smdo04yi" path="res://wide_street_01_8k.hdr" id="2_6nxq5"]
 [ext_resource type="Script" path="res://first_person.gd" id="3_y7tog"]
-[ext_resource type="Shader" path="res://cull_front.gdshader" id="6_bvffo"]
 [ext_resource type="Shader" path="res://shader2_delanteras.gdshader" id="6_oaatf"]
 [ext_resource type="Shader" path="res://shader3_trazado_rayos.gdshader" id="6_rri73"]
 [ext_resource type="Shader" path="res://shader1_traseras.gdshader" id="7_8tbfs"]
-[ext_resource type="Shader" path="res://cull_back.gdshader" id="10_snekh"]
+[ext_resource type="Script" path="res://control.gd" id="10_6ke2q"]
+[ext_resource type="Script" path="res://label.gd" id="11_h1g5t"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_bbb1s"]
 panorama = ExtResource("2_6nxq5")
@@ -29,9 +29,13 @@ ambient_light_color = Color(1, 1, 1, 1)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gf7gt"]
 render_priority = 0
 shader = ExtResource("6_rri73")
-shader_parameter/umbral_densidad = 0.2
+shader_parameter/umbral_densidad = 0.4
+shader_parameter/paso = 0.002
 shader_parameter/volume_min = null
 shader_parameter/volume_size = null
+shader_parameter/extra_color_0 = null
+shader_parameter/extra_color_1 = null
+shader_parameter/extra_color_2 = null
 
 [sub_resource type="BoxMesh" id="BoxMesh_2fuyy"]
 material = SubResource("ShaderMaterial_gf7gt")
@@ -52,21 +56,16 @@ size = Vector3(5, 5, 5)
 render_priority = 0
 shader = ExtResource("7_8tbfs")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jq354"]
-render_priority = 0
-shader = ExtResource("10_snekh")
+[sub_resource type="LabelSettings" id="LabelSettings_nn5rf"]
+font_size = 18
+shadow_color = Color(0.0214347, 0.0214346, 0.0214346, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_bhue1"]
-material = SubResource("ShaderMaterial_jq354")
-size = Vector3(2, 2, 2)
+[sub_resource type="Theme" id="Theme_rj1k1"]
+default_font_size = 25
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2bubt"]
-render_priority = 0
-shader = ExtResource("6_bvffo")
-
-[sub_resource type="BoxMesh" id="BoxMesh_pkcrt"]
-material = SubResource("ShaderMaterial_2bubt")
-size = Vector3(2, 2, 2)
+[sub_resource type="LabelSettings" id="LabelSettings_q6ees"]
+font_size = 22
+shadow_color = Color(0, 0, 0, 1)
 
 [node name="Node3D" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0244141, 0, -0.000532627)
@@ -89,6 +88,7 @@ script = ExtResource("3_y7tog")
 [node name="Camera3D" type="Camera3D" parent="FirstPerson"]
 transform = Transform3D(1, 1.86265e-09, 8.14188e-17, 0, -4.37114e-08, 1, 1.86265e-09, -1, -4.37114e-08, 0, 0, 0)
 cull_mask = 1048569
+near = 0.001
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FirstPerson"]
 transform = Transform3D(1, 1.86265e-09, 8.14188e-17, 0, -4.37114e-08, 1, 1.86265e-09, -1, -4.37114e-08, 0, 0, 0)
@@ -120,16 +120,6 @@ layers = 3
 mesh = SubResource("BoxMesh_snek2")
 surface_material_override/0 = SubResource("ShaderMaterial_8703w")
 
-[node name="cull_back_ejemplo" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.9076, 1, 1)
-visible = false
-mesh = SubResource("BoxMesh_bhue1")
-
-[node name="cull_front_ejemplo" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.999777, 0.0211169, 0, -0.0211169, 0.999777, 16.5669, 1, 1)
-visible = false
-mesh = SubResource("BoxMesh_pkcrt")
-
 [node name="SubViewport2" type="SubViewport" parent="."]
 transparent_bg = true
 use_hdr_2d = true
@@ -151,3 +141,100 @@ render_target_update_mode = 4
 [node name="Camera3D" type="Camera3D" parent="SubViewport"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 cull_mask = 2
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1.0
+offset_top = -3.0
+offset_right = 279.0
+offset_bottom = 548.0
+scale = Vector2(0.8, 0.8)
+script = ExtResource("10_6ke2q")
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 0
+offset_left = -1.0
+offset_top = 4.0
+offset_right = 315.0
+offset_bottom = 669.0
+color = Color(0, 0, 0, 0.235294)
+
+[node name="ColorPicker" type="ColorPicker" parent="Control"]
+clip_contents = true
+layout_mode = 1
+offset_left = 3.33333
+offset_top = 88.3333
+offset_right = 301.333
+offset_bottom = 496.333
+picker_shape = 2
+sampler_visible = false
+color_modes_visible = false
+hex_visible = false
+presets_visible = false
+
+[node name="titulo_umbral" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 73.75
+offset_top = 535.0
+offset_right = 249.75
+offset_bottom = 565.0
+text = "Umbral de densidad"
+label_settings = SubResource("LabelSettings_nn5rf")
+
+[node name="HSlider" type="HSlider" parent="Control"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 565.0
+offset_right = 285.0
+offset_bottom = 588.0
+tooltip_text = "Umbral de densidad"
+max_value = 1.0
+step = 0.01
+ticks_on_borders = true
+
+[node name="OptionButton" type="OptionButton" parent="Control"]
+layout_mode = 0
+offset_left = 53.3333
+offset_top = 33.3333
+offset_right = 247.334
+offset_bottom = 53.3333
+
+[node name="titulo_paso" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 87.5
+offset_top = 602.5
+offset_right = 236.5
+offset_bottom = 632.5
+text = "Tamaño del paso"
+label_settings = SubResource("LabelSettings_nn5rf")
+
+[node name="HSlider_paso" type="HSlider" parent="Control"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 630.0
+offset_right = 285.0
+offset_bottom = 653.0
+min_value = 0.004
+max_value = 0.04
+step = 0.001
+value = 0.004
+
+[node name="FPS" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 1472.5
+offset_top = 30.0
+offset_right = 1542.5
+offset_bottom = 72.0
+theme = SubResource("Theme_rj1k1")
+label_settings = SubResource("LabelSettings_q6ees")
+script = ExtResource("11_h1g5t")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(0.999954, 0.00959916, 0, -0.00959916, 0.999954, 0, 0, 0, 1, 0, 2.63943, 3.17229)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.75639, 0.654121, 0, -0.654121, 0.75639, 0.235135, 6.00375, 8.44708)
+
+[connection signal="value_changed" from="Control/HSlider" to="Control" method="_on_h_slider_value_changed"]
+[connection signal="value_changed" from="Control/HSlider_paso" to="Control" method="_on_h_slider_paso_value_changed"]
