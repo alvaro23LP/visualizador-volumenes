@@ -8,6 +8,7 @@ uniform float umbral_densidad = 0.4;
 uniform float paso = 0.01;
 uniform vec3 volume_min;
 uniform vec3 volume_size;
+uniform float tex_size;
 
 uniform vec4 extra_color_0 : source_color;
 uniform vec4 extra_color_1 : source_color;
@@ -35,16 +36,21 @@ vec4 funcion_color(float d) {
 
 vec3 calcular_normal_volumen(vec3 p) {
 	vec3 uvw = clamp((p - volume_min) / volume_size, 0.0, 1.0); //valor de p
-	vec3 uvw_x = clamp(((p - vec3(paso, 0.0, 0.0)) - volume_min) / volume_size, 0.0, 1.0); //valor de p - paso en x
-	vec3 uvw_y = clamp(((p - vec3(0.0, paso, 0.0)) - volume_min) / volume_size, 0.0, 1.0); //valor de p - paso en y
-	vec3 uvw_z = clamp(((p - vec3(0.0, 0.0, paso)) - volume_min) / volume_size, 0.0, 1.0); //valor de p - paso en z
-
-	float dx = texture(textura3D, clamp(uvw, 0.0, 1.0)).r - 
-				texture(textura3D, clamp(uvw_x, 0.0, 1.0)).r;
-	float dy = texture(textura3D, clamp(uvw, 0.0, 1.0)).r -
-				texture(textura3D, clamp(uvw_y, 0.0, 1.0)).r;
-	float dz = texture(textura3D, clamp(uvw, 0.0, 1.0)).r -
-				texture(textura3D, clamp(uvw_z, 0.0, 1.0)).r;
+	float aux = 1.0/tex_size; // si mi textura es 512^3, aux = 1/512
+	
+	vec3 uvwX = uvw - vec3(aux, 0., 0.);
+	vec3 uvwY = uvw - vec3(0., aux, 0.);
+	vec3 uvwZ = uvw - vec3(0., 0., aux);
+	
+	float a = (texture(textura3D, uvw).r + texture(textura3D, uvw).g + texture(textura3D, uvw).b) / 3.0; 
+	
+	float bx = (texture(textura3D, uvwX).r + texture(textura3D, uvwX).g + texture(textura3D, uvwX).b) / 3.0;  
+	float by = (texture(textura3D, uvwY).r + texture(textura3D, uvwY).g + texture(textura3D, uvwY).b) / 3.0;  
+	float bz = (texture(textura3D, uvwZ).r + texture(textura3D, uvwZ).g + texture(textura3D, uvwZ).b) / 3.0;  
+		
+	float dx = a-bx;
+	float dy = a-by;
+	float dz = a-bz;
 
 	vec3 normal = vec3(dx, dy, dz);
 	return normalize(normal);
@@ -83,10 +89,11 @@ void fragment() {
 	//Calculo la normal
 	normal_f = calcular_normal_volumen(p);
 	
-	//NORMAL = normal_f;
+	NORMAL = normal_f;
 	
 	ALBEDO = final_color;
     //ALBEDO = normal_f * 0.5 + 0.5;
+    //ALBEDO = normal_f;
     ALPHA = clamp(transparencia, 0.0, 1.0);
 }
 

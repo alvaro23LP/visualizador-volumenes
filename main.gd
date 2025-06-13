@@ -27,7 +27,8 @@ func _ready():
 	var loader = VolumeLoader.new()
 	var volume_tex = loader.create_volume_from_folder("res://slices/")
 	mat.set_shader_parameter("textura3D", volume_tex)
-
+	mat.set_shader_parameter("tex_size", volume_tex.get_width())
+	
 
 func _process(_delta):
 	var mat = mesh.get_active_material(0)
@@ -39,7 +40,6 @@ func _process(_delta):
 	var bounds = mesh.get_aabb()
 	mat.set_shader_parameter("volume_min", bounds.position)
 	mat.set_shader_parameter("volume_size", bounds.size)
-
 
 
 	if cam_fp.current:

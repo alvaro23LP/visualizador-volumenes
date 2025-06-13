@@ -33,6 +33,7 @@ shader_parameter/umbral_densidad = 0.4
 shader_parameter/paso = 0.002
 shader_parameter/volume_min = null
 shader_parameter/volume_size = null
+shader_parameter/tex_size = null
 shader_parameter/extra_color_0 = null
 shader_parameter/extra_color_1 = null
 shader_parameter/extra_color_2 = null
