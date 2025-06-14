@@ -79,8 +79,8 @@ void fragment() {
 		alpha = funcion_densidad(p);
 		color = funcion_color(alpha);
 
-		final_color += color.rgb * color.a * (1.0 - transparencia);	
-        transparencia += color.a * (1.0 - transparencia);
+		final_color += color.rgb * color.a;	
+        transparencia += color.a;
 		
 		if(transparencia > 0.99)
 			break;
@@ -92,12 +92,11 @@ void fragment() {
 	//NORMAL = normal_f;
 	
 	ALBEDO = final_color;
-    //ALBEDO = normal_f * 0.5 + 0.5;
-    ALBEDO = normal_f;
+    //ALBEDO = normal_f;
     ALPHA = clamp(transparencia, 0.0, 1.0);
 }
 
-//void light(){
-	//float NdotL = clamp(dot(normal_f, LIGHT), 0.0, 1.0);
-	//DIFFUSE_LIGHT +=  NdotL * ATTENUATION * LIGHT_COLOR ;
-//}
+void light(){
+	float NdotL = clamp(dot(normal_f, LIGHT), 0.0, 1.0);
+	DIFFUSE_LIGHT +=  NdotL * ATTENUATION * LIGHT_COLOR ;
+}
