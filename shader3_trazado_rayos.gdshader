@@ -5,7 +5,7 @@ uniform sampler2D viewport_texture2;
 uniform sampler3D textura3D;
 
 uniform float umbral_densidad = 0.4;
-uniform float paso = 0.01;
+uniform float paso = 0.001;
 uniform vec3 volume_min;
 uniform vec3 volume_size;
 uniform float tex_size;
@@ -14,7 +14,7 @@ uniform vec4 extra_color_0 : source_color;
 uniform vec4 extra_color_1 : source_color;
 uniform vec4 extra_color_2 : source_color;
 
-varying vec3 normal_f;
+//varying vec3 normal_f;
 
 float funcion_densidad(vec3 p) {
 	vec3 uvw = clamp((p - volume_min) / volume_size, 0.0, 1.0);
@@ -87,16 +87,15 @@ void fragment() {
     }
 	
 	//Calculo la normal
-	normal_f = calcular_normal_volumen(p);
+	//normal_f = calcular_normal_volumen(p);
 	
 	//NORMAL = normal_f;
 	
 	ALBEDO = final_color;
-    //ALBEDO = normal_f;
     ALPHA = clamp(transparencia, 0.0, 1.0);
 }
 
-void light(){
-	float NdotL = clamp(dot(normal_f, LIGHT), 0.0, 1.0);
-	DIFFUSE_LIGHT +=  NdotL * ATTENUATION * LIGHT_COLOR ;
-}
+//void light(){
+	//float NdotL = clamp(dot(normal_f, LIGHT), 0.0, 1.0);
+	//DIFFUSE_LIGHT +=  NdotL * ATTENUATION * LIGHT_COLOR ;
+//}

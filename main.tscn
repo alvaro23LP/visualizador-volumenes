@@ -79,7 +79,6 @@ environment = SubResource("Environment_so7h2")
 script = ExtResource("2_4j55b")
 
 [node name="Camera3D" type="Camera3D" parent="OrbitalCamera"]
-visible = false
 cull_mask = 1048569
 
 [node name="FirstPerson" type="CharacterBody3D" parent="."]
@@ -216,10 +215,10 @@ offset_left = 25.0
 offset_top = 630.0
 offset_right = 285.0
 offset_bottom = 653.0
-min_value = 0.004
-max_value = 0.04
-step = 0.001
-value = 0.004
+min_value = 0.001
+max_value = 0.1
+step = 0.004
+value = 0.001
 
 [node name="FPS" type="Label" parent="Control"]
 layout_mode = 0

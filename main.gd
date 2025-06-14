@@ -1,11 +1,10 @@
 extends Node3D
 
 var deltas := []
-const MAX_DELTAS := 2000
+const MAX_DELTAS := 1000
 const FILE_PATH := "res://deltas.txt"
 
 func _save_all():
-	print("GUARDANDO")
 	var file = FileAccess.open(FILE_PATH, FileAccess.ModeFlags.WRITE)
 	if file:
 		for d in deltas:
@@ -14,6 +13,15 @@ func _save_all():
 		print("FIN")
 	else:
 		push_error("Error al guardar todos los deltas.")
+
+func calcular_media(_deltas: Array) -> float:
+	if _deltas.is_empty():
+		return 0.0  # Evita división por cero
+	var suma := 0.0
+	for d in _deltas:
+		suma += d
+	return suma / _deltas.size()
+
 
 var VolumeLoader = preload("res://VolumeLoader.gd")
 
@@ -66,10 +74,9 @@ func _process(_delta):
 		
 	### DELTA A TXT
 	if deltas.size() < MAX_DELTAS:
-		print(_delta)
 		deltas.append(_delta)
 		if deltas.size() == MAX_DELTAS:
-			_save_all()
+			print(calcular_media(deltas))
 
 func _input(event):
 	if event.is_action_pressed("toggle_camera"):

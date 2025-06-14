@@ -11,9 +11,14 @@ var current_index := 0
 
 func _ready() -> void:
 	mat = mesh.get_active_material(0) as ShaderMaterial
+	
 	# Inicializa controles con valores actuales
 	$HSlider.value = mat.get_shader_parameter("umbral_densidad")
 	$HSlider_paso.value = mat.get_shader_parameter("paso")
+	mat.set_shader_parameter("paso", 0.0001)
+	print("PASO: ", mat.get_shader_parameter("paso"))
+	#$HSlider_paso.value = 0.0100000;
+	#mat.set_shader_parameter("paso", 0.0010000)
 	
 	# Inicializar OptionButton
 	for i in COLOR_COUNT:
@@ -24,13 +29,13 @@ func _ready() -> void:
 	$ColorPicker.color_changed.connect(_on_color_changed)
 
 	# Inicializar picker con el valor del primer color
-	var c = Color(0.0, 0.0, 1.0, 0.0) 
+	var c = Color(0.0, 0.0, 1.0, 0.1) 
 	$ColorPicker.color = c
 	
 	mat.set_shader_parameter("extra_color_0", c)
 	c = Color(0.5, 0.0, 0.0, 0.2) 
 	mat.set_shader_parameter("extra_color_1", c)
-	c = Color(1.0, 1.0, 1.0, 0.2) 
+	c = Color(0.8, 1.0, 1.0, 0.2) 
 	mat.set_shader_parameter("extra_color_2", c)
 	#c = Color(1.0, 1.0, 1.0, 0.2) 
 	#mat.set_shader_parameter("extra_color_3", c)
@@ -55,5 +60,5 @@ func _on_h_slider_value_changed(value: float) -> void:
 	mat.set_shader_parameter("umbral_densidad", value)
 
 
-func _on_h_slider_paso_value_changed(value: float) -> void:
-	mat.set_shader_parameter("paso", value/4.0)
+#func _on_h_slider_paso_value_changed(value: float) -> void:
+	#mat.set_shader_parameter("paso", value/10.0)

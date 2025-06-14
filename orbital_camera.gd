@@ -5,7 +5,7 @@ extends Node3D
 @export var min_distance := 2.0
 @export var max_distance := 20.0
 
-var distance := 10.0
+var distance := 8.0
 var orbital_rotation := Vector2.ZERO
 
 func _unhandled_input(event):
