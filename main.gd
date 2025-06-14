@@ -1,7 +1,7 @@
 extends Node3D
 
 var deltas := []
-const MAX_DELTAS := 1000
+const MAX_DELTAS := 500
 const FILE_PATH := "res://deltas.txt"
 
 func _save_all():
