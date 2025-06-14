@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-@export var speed := 4.0
+@export var speed := 7.0
 @export var mouse_sensitivity := 0.003
 
 var rotation_x := 0.0

@@ -23,9 +23,9 @@ float funcion_densidad(vec3 p) {
 }
 
 vec4 funcion_color(float d) {
-    if (d >= 0.3 && d < 0.4) {
+    if (d >= 0.3 && d < 0.5) {
         return vec4(extra_color_0.xyz, clamp(extra_color_0.a/25.0, 0.0, 0.3));
-    } else if (d >= 0.4 && d <= 0.6) {
+    } else if (d >= 0.5 && d <= 0.6) {
         return vec4(extra_color_1.xyz, clamp(extra_color_1.a/25.0, 0.0, 0.3)); 
     } else if (d >= 0.6 && d <= 1.0) {
         return vec4(extra_color_2.xyz,clamp(extra_color_2.a/25.0, 0.0, 0.3)); 
@@ -79,8 +79,8 @@ void fragment() {
 		alpha = funcion_densidad(p);
 		color = funcion_color(alpha);
 
-		final_color += color.rgb * color.a;	
-        transparencia += color.a;
+		final_color += color.rgb * color.a * (1.0 - transparencia);	
+        transparencia += color.a * (1.0 - transparencia);
 		
 		if(transparencia > 0.99)
 			break;
@@ -89,11 +89,11 @@ void fragment() {
 	//Calculo la normal
 	normal_f = calcular_normal_volumen(p);
 	
-	NORMAL = normal_f;
+	//NORMAL = normal_f;
 	
 	ALBEDO = final_color;
     //ALBEDO = normal_f * 0.5 + 0.5;
-    //ALBEDO = normal_f;
+    ALBEDO = normal_f;
     ALPHA = clamp(transparencia, 0.0, 1.0);
 }
 
