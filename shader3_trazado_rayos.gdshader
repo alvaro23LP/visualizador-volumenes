@@ -4,17 +4,18 @@ uniform sampler2D viewport_texture;
 uniform sampler2D viewport_texture2;
 uniform sampler3D textura3D;
 
-uniform float umbral_densidad = 0.4;
+uniform float umbral_densidad = 0.3;
 uniform float paso = 0.001;
 uniform vec3 volume_min;
 uniform vec3 volume_size;
 uniform float tex_size;
 
+uniform sampler3D volume_noise;
+uniform vec3 noise_offset;
+
 uniform vec4 extra_color_0 : source_color;
 uniform vec4 extra_color_1 : source_color;
 uniform vec4 extra_color_2 : source_color;
-
-//varying vec3 normal_f;
 
 float funcion_densidad(vec3 p) {
 	vec3 uvw = clamp((p - volume_min) / volume_size, 0.0, 1.0);
@@ -22,40 +23,23 @@ float funcion_densidad(vec3 p) {
 	return d > umbral_densidad ? d : 0.0;
 }
 
+float funcion_densidad2(vec3 p) {
+	vec3 uvw = clamp((p - volume_min) / volume_size, 0.0, 1.0);
+    float d = texture(volume_noise, uvw+noise_offset).r;
+	return d > umbral_densidad ? d : 0.0;
+}
+
 vec4 funcion_color(float d) {
     if (d >= 0.3 && d < 0.4) {
-        return vec4(extra_color_0.xyz, clamp(extra_color_0.a/25.0, 0.0, 0.3));
+        return vec4(extra_color_0.xyz, clamp(extra_color_0.a/35.0, 0.0, 0.3));
     } else if (d >= 0.4 && d <= 0.6) {
-        return vec4(extra_color_1.xyz, clamp(extra_color_1.a/25.0, 0.0, 0.3)); 
+        return vec4(extra_color_1.xyz, clamp(extra_color_1.a/35.0, 0.0, 0.3)); 
     } else if (d >= 0.6 && d <= 1.0) {
-        return vec4(extra_color_2.xyz,clamp(extra_color_2.a/25.0, 0.0, 0.3)); 
+        return vec4(extra_color_2.xyz,clamp(extra_color_2.a/35.0, 0.0, 0.3)); 
     } else {
         return vec4(0.0); // Vacio 
     }
 }
-
-vec3 calcular_normal_volumen(vec3 p) {
-	vec3 uvw = clamp((p - volume_min) / volume_size, 0.0, 1.0); //valor de p
-	float aux = 1.0/tex_size; // si mi textura es 512^3, aux = 1/512
-	
-	vec3 uvwX = uvw - vec3(aux, 0., 0.);
-	vec3 uvwY = uvw - vec3(0., aux, 0.);
-	vec3 uvwZ = uvw - vec3(0., 0., aux);
-	
-	float a = (texture(textura3D, uvw).r + texture(textura3D, uvw).g + texture(textura3D, uvw).b) / 3.0; 
-	
-	float bx = (texture(textura3D, uvwX).r + texture(textura3D, uvwX).g + texture(textura3D, uvwX).b) / 3.0;  
-	float by = (texture(textura3D, uvwY).r + texture(textura3D, uvwY).g + texture(textura3D, uvwY).b) / 3.0;  
-	float bz = (texture(textura3D, uvwZ).r + texture(textura3D, uvwZ).g + texture(textura3D, uvwZ).b) / 3.0;  
-		
-	float dx = a-bx;
-	float dy = a-by;
-	float dz = a-bz;
-
-	vec3 normal = vec3(dx, dy, dz);
-	return normalize(normal);
-}
-
 
 void fragment() {
     vec4 traseras = textureLod(viewport_texture, SCREEN_UV, 0.0); // textura del primer viewport
@@ -76,7 +60,7 @@ void fragment() {
 	for (float t = 0.0; t < dis; t += paso) {	// Recorremos el rayo
         p = delanteras.rgb + (ray_dir * t);			// Punto p en el rayo
 
-		alpha = funcion_densidad(p);
+		alpha = funcion_densidad2(p);
 		color = funcion_color(alpha);
 
 		final_color += color.rgb * color.a;	
@@ -86,16 +70,6 @@ void fragment() {
 			break;
     }
 	
-	//Calculo la normal
-	//normal_f = calcular_normal_volumen(p);
-	
-	//NORMAL = normal_f;
-	
 	ALBEDO = final_color;
     ALPHA = clamp(transparencia, 0.0, 1.0);
 }
-
-//void light(){
-	//float NdotL = clamp(dot(normal_f, LIGHT), 0.0, 1.0);
-	//DIFFUSE_LIGHT +=  NdotL * ATTENUATION * LIGHT_COLOR ;
-//}
