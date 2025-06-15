@@ -15,7 +15,7 @@ func _ready() -> void:
 	# Inicializa controles con valores actuales
 	$HSlider.value = mat.get_shader_parameter("umbral_densidad")
 	$HSlider_paso.value = mat.get_shader_parameter("paso")
-	mat.set_shader_parameter("paso", 0.0001)
+	mat.set_shader_parameter("paso", 0.005)
 	print("PASO: ", mat.get_shader_parameter("paso"))
 	#$HSlider_paso.value = 0.0100000;
 	#mat.set_shader_parameter("paso", 0.0010000)

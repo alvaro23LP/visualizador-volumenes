@@ -23,9 +23,9 @@ float funcion_densidad(vec3 p) {
 }
 
 vec4 funcion_color(float d) {
-    if (d >= 0.3 && d < 0.5) {
+    if (d >= 0.3 && d < 0.4) {
         return vec4(extra_color_0.xyz, clamp(extra_color_0.a/25.0, 0.0, 0.3));
-    } else if (d >= 0.5 && d <= 0.6) {
+    } else if (d >= 0.4 && d <= 0.6) {
         return vec4(extra_color_1.xyz, clamp(extra_color_1.a/25.0, 0.0, 0.3)); 
     } else if (d >= 0.6 && d <= 1.0) {
         return vec4(extra_color_2.xyz,clamp(extra_color_2.a/25.0, 0.0, 0.3)); 
