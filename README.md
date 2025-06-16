@@ -25,5 +25,5 @@ La herramienta permite visualizar estructuras internas complejas mediante el mue
 
 ## Ejemplos de renderizado
 
-![Ejuemplos](images_github\volumenes.png)  
+![Ejemplos](images_github/volumenes.png)  
 
