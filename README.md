@@ -1,7 +1,7 @@
 # Visualizador de Volúmenes mediante Trazado de Rayos en Godot
 
 <p align="center">
-  <img src="images_github/logo.png" alt="Logo TFG" width="150"/>
+  <img src="images_github/logo.png" alt="Logo TFG" width="350"/>
 </p>
 
 ## Resumen
