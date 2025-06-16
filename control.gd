@@ -24,16 +24,15 @@ func _ready() -> void:
 	$ColorPicker.color_changed.connect(_on_color_changed)
 
 	# Inicializar picker con el valor del primer color
-	var c = Color(0.0, 0.0, 1.0, 0.0) 
+	var c = Color(0.0, 0.0, 1.0, 0.1) 
 	$ColorPicker.color = c
 	
 	mat.set_shader_parameter("extra_color_0", c)
-	c = Color(0.5, 0.0, 0.0, 0.2) 
+	c = Color(1.0, 0.0, 0.0, 0.2) 
 	mat.set_shader_parameter("extra_color_1", c)
-	c = Color(1.0, 1.0, 1.0, 0.2) 
+	c = Color(1.0, 1.0, 1.0, 0.06) 
 	mat.set_shader_parameter("extra_color_2", c)
-	#c = Color(1.0, 1.0, 1.0, 0.2) 
-	#mat.set_shader_parameter("extra_color_3", c)
+
 
 func _process(_delta: float) -> void:
 	pass

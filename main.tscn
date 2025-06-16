@@ -18,7 +18,7 @@ sky_material = SubResource("PanoramaSkyMaterial_bbb1s")
 
 [sub_resource type="Environment" id="Environment_so7h2"]
 background_mode = 1
-background_color = Color(0.233925, 0.233925, 0.233925, 1)
+background_color = Color(0.187176, 0.187176, 0.187176, 1)
 background_energy_multiplier = 0.9
 sky = SubResource("Sky_qd3wd")
 ambient_light_source = 2
@@ -33,7 +33,6 @@ shader_parameter/umbral_densidad = 0.4
 shader_parameter/paso = 0.002
 shader_parameter/volume_min = null
 shader_parameter/volume_size = null
-shader_parameter/tex_size = null
 shader_parameter/extra_color_0 = null
 shader_parameter/extra_color_1 = null
 shader_parameter/extra_color_2 = null
@@ -107,17 +106,6 @@ mesh = SubResource("BoxMesh_dq05m")
 [node name="Box_traseras" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 layers = 2
-mesh = SubResource("BoxMesh_snek2")
-surface_material_override/0 = SubResource("ShaderMaterial_8703w")
-
-[node name="Box_delanteras2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.1763, 0, 0)
-layers = 5
-mesh = SubResource("BoxMesh_dq05m")
-
-[node name="Box_traseras2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.9689, 0, 0)
-layers = 3
 mesh = SubResource("BoxMesh_snek2")
 surface_material_override/0 = SubResource("ShaderMaterial_8703w")
 
@@ -230,12 +218,6 @@ offset_bottom = 72.0
 theme = SubResource("Theme_rj1k1")
 label_settings = SubResource("LabelSettings_q6ees")
 script = ExtResource("11_h1g5t")
-
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(0.999954, 0.00959916, 0, -0.00959916, 0.999954, 0, 0, 0, 1, 0, 2.63943, 3.17229)
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.75639, 0.654121, 0, -0.654121, 0.75639, 0.235135, 6.00375, 8.44708)
 
 [connection signal="value_changed" from="Control/HSlider" to="Control" method="_on_h_slider_value_changed"]
 [connection signal="value_changed" from="Control/HSlider_paso" to="Control" method="_on_h_slider_paso_value_changed"]

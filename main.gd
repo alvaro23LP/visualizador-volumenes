@@ -1,20 +1,5 @@
 extends Node3D
 
-var deltas := []
-const MAX_DELTAS := 2000
-const FILE_PATH := "res://deltas.txt"
-
-func _save_all():
-	print("GUARDANDO")
-	var file = FileAccess.open(FILE_PATH, FileAccess.ModeFlags.WRITE)
-	if file:
-		for d in deltas:
-			file.store_line(str(d))
-		file.close()
-		print("FIN")
-	else:
-		push_error("Error al guardar todos los deltas.")
-
 var VolumeLoader = preload("res://VolumeLoader.gd")
 
 @onready var cam_orbital := $OrbitalCamera/Camera3D
@@ -42,8 +27,6 @@ func _ready():
 	var loader = VolumeLoader.new()
 	var volume_tex = loader.create_volume_from_folder("res://slices/")
 	mat.set_shader_parameter("textura3D", volume_tex)
-	mat.set_shader_parameter("tex_size", volume_tex.get_width())
-	
 
 func _process(_delta):
 	var mat = mesh.get_active_material(0)
@@ -56,20 +39,12 @@ func _process(_delta):
 	mat.set_shader_parameter("volume_min", bounds.position)
 	mat.set_shader_parameter("volume_size", bounds.size)
 
-
 	if cam_fp.current:
 		cam_viewport1.global_transform = cam_fp.global_transform
 		cam_viewport2.global_transform = cam_fp.global_transform
 	else:
 		cam_viewport1.global_transform = cam_orbital.global_transform
 		cam_viewport2.global_transform = cam_orbital.global_transform
-		
-	### DELTA A TXT
-	if deltas.size() < MAX_DELTAS:
-		print(_delta)
-		deltas.append(_delta)
-		if deltas.size() == MAX_DELTAS:
-			_save_all()
 
 func _input(event):
 	if event.is_action_pressed("toggle_camera"):
