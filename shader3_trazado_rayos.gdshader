@@ -14,7 +14,7 @@ uniform vec4 extra_color_0 : source_color;
 uniform vec4 extra_color_1 : source_color;
 uniform vec4 extra_color_2 : source_color;
 
-//varying vec3 normal_f;
+varying vec3 normal_f;
 
 float funcion_densidad(vec3 p) {
 	vec3 uvw = clamp((p - volume_min) / volume_size, 0.0, 1.0);
@@ -69,7 +69,7 @@ void fragment() {
     float transparencia = 0.0;
     vec4 color;
 	float alpha = 0.0;
-
+	bool calculada = false;
 	ALBEDO = final_color;
 	ALPHA = alpha;
 
@@ -79,23 +79,31 @@ void fragment() {
 		alpha = funcion_densidad(p);
 		color = funcion_color(alpha);
 
-		final_color += color.rgb * color.a;	
-        transparencia += color.a;
+		final_color += color.rgb * color.a * (1.0 - transparencia);	
+        transparencia += color.a * (1.0 - transparencia);
 		
-		if(transparencia > 0.99)
-			break;
+		// Si la opacidad es significativa, calcula normal e ilumina
+        if (color.a > 0.005 && !calculada) {
+            normal_f = calcular_normal_volumen(p);
+			calculada = true;
+        }
+
+		if(transparencia > 0.99) break;
     }
 	
-	//Calculo la normal
-	//normal_f = calcular_normal_volumen(p);
+	if(calculada){
+		normal_f = normalize(normal_f);
+	} else{
+		normal_f = vec3(1.0);
+	}
 	
-	//NORMAL = normal_f;
-	
+
 	ALBEDO = final_color;
+	//ALBEDO = normal_f;
     ALPHA = clamp(transparencia, 0.0, 1.0);
 }
 
-//void light(){
-	//float NdotL = clamp(dot(normal_f, LIGHT), 0.0, 1.0);
-	//DIFFUSE_LIGHT +=  NdotL * ATTENUATION * LIGHT_COLOR ;
-//}
+void light(){
+	float NdotL = clamp(dot(normal_f, LIGHT), 0.0, 1.0);
+	DIFFUSE_LIGHT +=  NdotL * ATTENUATION * LIGHT_COLOR ;
+}
