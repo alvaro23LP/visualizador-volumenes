@@ -38,6 +38,7 @@ shader_parameter/noise_offset = null
 shader_parameter/extra_color_0 = null
 shader_parameter/extra_color_1 = null
 shader_parameter/extra_color_2 = null
+shader_parameter/extra_color_3 = null
 
 [sub_resource type="BoxMesh" id="BoxMesh_2fuyy"]
 material = SubResource("ShaderMaterial_gf7gt")
@@ -105,17 +106,6 @@ layers = 2
 mesh = SubResource("BoxMesh_snek2")
 surface_material_override/0 = SubResource("ShaderMaterial_8703w")
 
-[node name="Box_delanteras2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.89, 0, -0.115791)
-layers = 5
-mesh = SubResource("BoxMesh_dq05m")
-
-[node name="Box_traseras2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.996, 0, 0)
-layers = 3
-mesh = SubResource("BoxMesh_snek2")
-surface_material_override/0 = SubResource("ShaderMaterial_8703w")
-
 [node name="SubViewport2" type="SubViewport" parent="."]
 transparent_bg = true
 use_hdr_2d = true
@@ -151,7 +141,7 @@ layout_mode = 0
 offset_left = -1.0
 offset_top = 4.0
 offset_right = 315.0
-offset_bottom = 669.0
+offset_bottom = 720.0
 color = Color(0, 0, 0, 0.235294)
 
 [node name="ColorPicker" type="ColorPicker" parent="Control"]
@@ -235,6 +225,7 @@ step = 0.002
 value = 0.024
 
 [node name="HSlider3" type="HSlider" parent="Control"]
+visible = false
 layout_mode = 0
 offset_left = 26.25
 offset_top = 712.5
@@ -245,6 +236,7 @@ max_value = 8.0
 value = 6.0
 
 [node name="HSlider4" type="HSlider" parent="Control"]
+visible = false
 layout_mode = 0
 offset_left = 25.0
 offset_top = 743.75
@@ -254,6 +246,10 @@ min_value = 1.0
 max_value = 3.0
 step = 0.1
 value = 2.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.939693, 0.116978, -0.321394, 0, 0.939693, 0.34202, 0.34202, -0.321394, 0.883022, -9.92862, 1.97937, 23.0681)
+light_color = Color(0.712129, 0.712129, 0.712129, 1)
 
 [connection signal="value_changed" from="Control/HSlider" to="Control" method="_on_h_slider_value_changed"]
 [connection signal="value_changed" from="Control/HSlider_paso" to="Control" method="_on_h_slider_paso_value_changed"]

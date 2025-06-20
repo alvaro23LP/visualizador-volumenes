@@ -6,7 +6,7 @@ extends Control
 var mat : ShaderMaterial
 
 # Cuántos colores manejar
-const COLOR_COUNT = 3
+const COLOR_COUNT = 4
 var current_index := 0
 
 func _ready() -> void:
@@ -15,7 +15,7 @@ func _ready() -> void:
 	# Inicializa controles con valores actuales
 	$HSlider.value = mat.get_shader_parameter("umbral_densidad")
 	$HSlider_paso.value = mat.get_shader_parameter("paso")
-	mat.set_shader_parameter("paso", 0.001)
+	mat.set_shader_parameter("paso", 0.002)
 	print("PASO: ", mat.get_shader_parameter("paso"))
 	#$HSlider_paso.value = 0.0100000;
 	#mat.set_shader_parameter("paso", 0.0010000)
@@ -29,17 +29,17 @@ func _ready() -> void:
 	$ColorPicker.color_changed.connect(_on_color_changed)
 
 	# Inicializar picker con el valor del primer color
-	var c = Color(0.8, 1.0, 0.8, 0.1) 
+	var c = Color(0.8, 1.0, 0.8, 0.09) 
 	$ColorPicker.color = c
 	
 	mat.set_shader_parameter("extra_color_0", c)
-	c = Color(0.5, 0.8, 0.5, 0.1) 
+	c = Color(0.5, 0.8, 0.5, 0.12) 
 	mat.set_shader_parameter("extra_color_1", c)
-	c = Color(0.2, 0.4, 0.2, 0.1) 
+	c = Color(0.2, 0.4, 0.2, 0.08) 
 	
 	mat.set_shader_parameter("extra_color_2", c)
-	#c = Color(1.0, 1.0, 1.0, 0.2) 
-	#mat.set_shader_parameter("extra_color_3", c)
+	c = Color(0.1, 0.2, 0.1, 0.1) 
+	mat.set_shader_parameter("extra_color_3", c)
 
 func _process(_delta: float) -> void:
 	pass
@@ -61,5 +61,5 @@ func _on_h_slider_value_changed(value: float) -> void:
 	mat.set_shader_parameter("umbral_densidad", value)
 
 
-#func _on_h_slider_paso_value_changed(value: float) -> void:
-	#mat.set_shader_parameter("paso", value/10.0)
+func _on_h_slider_paso_value_changed(value: float) -> void:
+	mat.set_shader_parameter("paso", value/10.0)

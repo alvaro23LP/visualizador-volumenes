@@ -53,7 +53,7 @@ func _ready():
 	var loader = VolumeLoader.new()
 	var volume_tex = loader.create_volume_from_folder("res://slices/")
 	mat.set_shader_parameter("textura3D", volume_tex)
-	#mat.set_shader_parameter("tex_size", volume_tex.get_width())
+	mat.set_shader_parameter("tex_size", 128)
 	
 	noise = FastNoiseLite.new()
 	noise.seed = randi()
@@ -119,7 +119,7 @@ func _process(_delta):
 	##noise.offset = Vector3(0.0, 0.0, time)
 	#tex3d.noise= noise
 	
-	time += _delta/2
+	time += _delta/3
 	var offset = (noise_speed/2.0) * time
 #		var offset = noise_speed * time * 3.0  # Escala para más movimiento
 	mat.set_shader_parameter("noise_offset", offset)
