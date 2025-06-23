@@ -4,8 +4,9 @@ uniform sampler2D viewport_texture;
 uniform sampler2D viewport_texture2;
 uniform sampler3D textura3D;
 
-uniform float umbral_densidad = 0.4;
-uniform float paso = 0.001;
+uniform float umbral_densidad = 0.2;
+uniform float paso = 0.005;
+uniform bool ilum = true;
 uniform vec3 volume_min;
 uniform vec3 volume_size;
 uniform float tex_size;
@@ -13,6 +14,7 @@ uniform float tex_size;
 uniform vec4 extra_color_0 : source_color;
 uniform vec4 extra_color_1 : source_color;
 uniform vec4 extra_color_2 : source_color;
+uniform vec4 extra_color_3 : source_color;
 
 varying vec3 normal_f;
 
@@ -23,12 +25,14 @@ float funcion_densidad(vec3 p) {
 }
 
 vec4 funcion_color(float d) {
-    if (d >= 0.3 && d < 0.4) {
-        return vec4(extra_color_0.xyz, clamp(extra_color_0.a/25.0, 0.0, 0.3));
-    } else if (d >= 0.4 && d <= 0.6) {
-        return vec4(extra_color_1.xyz, clamp(extra_color_1.a/25.0, 0.0, 0.3)); 
-    } else if (d >= 0.6 && d <= 1.0) {
-        return vec4(extra_color_2.xyz,clamp(extra_color_2.a/25.0, 0.0, 0.3)); 
+    if (d >= 0.1 && d < 0.45) {
+        return vec4(extra_color_0.xyz, clamp(extra_color_0.a/20.0, 0.0, 0.3));
+    } else if (d >= 0.45 && d < 0.6) {
+        return vec4(extra_color_1.xyz, clamp(extra_color_1.a/20.0, 0.0, 0.3)); 
+    } else if (d >= 0.6 && d < 0.8) {
+        return vec4(extra_color_2.xyz,clamp(extra_color_2.a/20.0, 0.0, 0.3));  
+	} else if (d >= 0.8 && d <= 1.0) {
+        return vec4(extra_color_3.xyz,clamp(extra_color_3.a/20.0, 0.0, 0.3)); 
     } else {
         return vec4(0.0); // Vacio 
     }
@@ -83,7 +87,7 @@ void fragment() {
         transparencia += color.a * (1.0 - transparencia);
 		
 		// Si la opacidad es significativa, calcula normal e ilumina
-        if (color.a > 0.005 && !calculada) {
+        if (transparencia > 0.005 && !calculada) {
             normal_f = calcular_normal_volumen(p);
 			calculada = true;
         }
@@ -99,11 +103,12 @@ void fragment() {
 	
 
 	ALBEDO = final_color;
-	//ALBEDO = normal_f;
     ALPHA = clamp(transparencia, 0.0, 1.0);
 }
 
 void light(){
-	float NdotL = clamp(dot(normal_f, LIGHT), 0.0, 1.0);
-	DIFFUSE_LIGHT +=  NdotL * ATTENUATION * LIGHT_COLOR ;
+	if(ilum){
+		float NdotL = clamp(dot(normal_f, LIGHT), 0.0, 1.0);
+		DIFFUSE_LIGHT +=  NdotL * ATTENUATION * LIGHT_COLOR ;
+	}
 }

@@ -42,10 +42,10 @@ func create_volume_from_folder(folder_path: String) -> ImageTexture3D:
 		var blank = Image.create(w, h, false, Image.FORMAT_RGB8)
 
 		# Inserta al principio
-		for i in range(pad_top):
+		for i in range(pad_top/1.4):
 			slices.insert(0, blank.duplicate())
 		# Inserta al final
-		for i in range(pad_bot):
+		for i in range(pad_bot/1.4):
 			slices.append(blank.duplicate())
 
 		d = slices.size() 

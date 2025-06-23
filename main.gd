@@ -1,28 +1,5 @@
 extends Node3D
 
-var deltas := []
-const MAX_DELTAS := 1000
-const FILE_PATH := "res://deltas.txt"
-
-func _save_all():
-	var file = FileAccess.open(FILE_PATH, FileAccess.ModeFlags.WRITE)
-	if file:
-		for d in deltas:
-			file.store_line(str(d))
-		file.close()
-		print("FIN")
-	else:
-		push_error("Error al guardar todos los deltas.")
-
-func calcular_media(_deltas: Array) -> float:
-	if _deltas.is_empty():
-		return 0.0  # Evita división por cero
-	var suma := 0.0
-	for d in _deltas:
-		suma += d
-	return suma / _deltas.size()
-
-
 var VolumeLoader = preload("res://VolumeLoader.gd")
 
 @onready var cam_orbital := $OrbitalCamera/Camera3D
@@ -72,11 +49,7 @@ func _process(_delta):
 		cam_viewport1.global_transform = cam_orbital.global_transform
 		cam_viewport2.global_transform = cam_orbital.global_transform
 		
-	### DELTA A TXT
-	if deltas.size() < MAX_DELTAS:
-		deltas.append(_delta)
-		if deltas.size() == MAX_DELTAS:
-			print(calcular_media(deltas))
+
 
 func _input(event):
 	if event.is_action_pressed("toggle_camera"):
