@@ -25,13 +25,13 @@ float funcion_densidad(vec3 p) {
 }
 
 vec4 funcion_color(float d) {
-    if (d >= 0.1 && d < 0.45) {
+    if (d >= 0.1 && d < 0.60) {
         return vec4(extra_color_0.xyz, clamp(extra_color_0.a/20.0, 0.0, 0.3));
-    } else if (d >= 0.45 && d < 0.6) {
+    } else if (d >= 0.65 && d < 0.75) {
         return vec4(extra_color_1.xyz, clamp(extra_color_1.a/20.0, 0.0, 0.3)); 
-    } else if (d >= 0.6 && d < 0.8) {
+    } else if (d >= 0.75 && d < 0.95) {
         return vec4(extra_color_2.xyz,clamp(extra_color_2.a/20.0, 0.0, 0.3));  
-	} else if (d >= 0.8 && d <= 1.0) {
+	} else if (d >= 0.95 && d <= 1.0) {
         return vec4(extra_color_3.xyz,clamp(extra_color_3.a/20.0, 0.0, 0.3)); 
     } else {
         return vec4(0.0); // Vacio 
